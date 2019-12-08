@@ -13,6 +13,7 @@ public class Main {
 	    run();
     }
 
+    /** Used to run the main operation over and over */
     public static void run() {
         System.out.println();
         System.out.println("What would you like to do? (i.e. add, remove, update, end?)");
@@ -23,18 +24,21 @@ public class Main {
         String command = responseParts[0];
         String[] args = Arrays.copyOfRange(responseParts, 1, responseParts.length);
 
-        if( command.equals("add") ) {
-            data.addToValue(args);
+        switch (command) {
+            case "add":
+                data.addToValue(args);
+                break;
+            case "end" :
+                System.out.println("Oh okay, goodbye!");
+                break;
+            default:
+                System.out.println("I'm sorry. What was that?");
+                help();
         }
-        else if ( command.equals("end") ) {
-            System.out.println("Oh okay, goodbye!");
-            return;
+
+        if ( !command.equals("end") ) {
+            run();
         }
-        else {
-            System.out.println("I'm sorry. What?");
-            help();
-        }
-        run();
     }
 
     public static void help() {

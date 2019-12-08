@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/** Used to connect with the database. */
 public class Data {
 
+    // TODO Connect to a real database
+
+    /** Mock data, in lieu of a database for now */
     private static final String[] mockData = {
             "Hey, I'm from the 'database'. Lol.",
             "I'm more data"
     };
 
+    /** Value memory */
     private ArrayList<String> value = new ArrayList<>(Arrays.asList(mockData));
 
     public ArrayList<String> getValue() {
