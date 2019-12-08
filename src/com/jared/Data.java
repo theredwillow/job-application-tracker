@@ -1,51 +1,58 @@
 package com.jared;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /** Used to connect with the database. */
 public class Data {
 
+    static ArrayList<JobApplication> value = new ArrayList<>();
+
     // TODO Connect to a real database
+    public void loadMockData() {
+        value.add(new JobApplication(
+                "Walmart",
+                "http://www.walmart.com/careers/this-is-a-fake-job.html",
+                "APPLIED"
+        ));
+        value.add(new JobApplication(
+                "Walgreen's",
+                "https:///www.indeed.com/walgreens-job-1234.php",
+                "REJECTED"
+        ));
+    }
 
-    /** Mock data, in lieu of a database for now */
-    private static final String[] mockData = {
-            "Hey, I'm from the 'database'. Lol.",
-            "I'm more data"
-    };
-
-    /** Value memory */
-    private ArrayList<String> value = new ArrayList<>(Arrays.asList(mockData));
-
-    public ArrayList<String> getValue() {
+    public ArrayList<JobApplication> getValue() {
         System.out.println();
 
-        final String printableValue = Arrays.toString(value.toArray());
-        System.out.println("The value is currently '" + printableValue + "'.");
+        System.out.println("The value is currently...");
+        for ( JobApplication job : value )
+            System.out.println(job);
+        if ( value.size() == 0 )
+            System.out.println("EMPTY");
+
+        System.out.println();
+
         return value;
     }
 
     public void addToValue() {
-        System.out.println();
         getValue();
 
-        System.out.println("What do you want to add to it?");
         Scanner scanner = new Scanner(System.in);
-        String newValue = scanner.nextLine();
-        value.add(newValue);
+        System.out.println("What is the url of the new job posting?");
+        String newUrl = scanner.nextLine();
+        System.out.println();
 
-        System.out.println("Done.");
-        getValue();
-    }
+        System.out.println("What is the name of the company?");
+        String newCompany = scanner.nextLine();
+        System.out.println();
 
-    public void addToValue(String[] newData) {
-        if( newData.length == 0 ) {
-            addToValue();
-            return;
-        }
-
-        value.addAll( Arrays.asList(newData) );
+        JobApplication newApplication = new JobApplication(
+                newCompany,
+                newUrl,
+                "Applied"
+        );
+        value.add(newApplication);
 
         System.out.println("Done.");
         getValue();

@@ -9,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Program starting...");
+        data.loadMockData();
         data.getValue();
 	    run();
     }
@@ -16,7 +17,7 @@ public class Main {
     /** Used to run the main operation over and over */
     public static void run() {
         System.out.println();
-        System.out.println("What would you like to do? (i.e. add, remove, update, end?)");
+        System.out.println("What would you like to do? (i.e. add, print, end?)");
         Scanner scanner = new Scanner(System.in);
         String response = scanner.nextLine();
         String[] responseParts = response.split(" ");
@@ -26,7 +27,10 @@ public class Main {
 
         switch (command) {
             case "add":
-                data.addToValue(args);
+                data.addToValue(); // args
+                break;
+            case "print":
+                data.getValue();
                 break;
             case "end" :
                 System.out.println("Oh okay, goodbye!");
@@ -42,7 +46,7 @@ public class Main {
     }
 
     public static void help() {
-        System.out.println("You can say things like 'add' or 'update'.");
+        System.out.println("You can say things like 'add' or 'print'.");
         System.out.println("Or, if you want to end the program, type 'end'.");
     }
 
