@@ -5,38 +5,38 @@ import java.util.*;
 /** Used to connect with the database. */
 public class Data {
 
-    static ArrayList<JobApplication> value = new ArrayList<>();
+    static List<JobApplication> JobApplications = new ArrayList<>();
 
     // TODO Connect to a real database
     public void loadMockData() {
-        value.add(new JobApplication(
+        JobApplications.add(new JobApplication(
                 "Walmart",
                 "http://www.walmart.com/careers/this-is-a-fake-job.html",
                 "APPLIED"
         ));
-        value.add(new JobApplication(
+        JobApplications.add(new JobApplication(
                 "Walgreen's",
                 "https:///www.indeed.com/walgreens-job-1234.php",
                 "REJECTED"
         ));
     }
 
-    public ArrayList<JobApplication> getValue() {
+    public List<JobApplication> getJobApplications() {
         System.out.println();
 
-        System.out.println("The value is currently...");
-        for ( JobApplication job : value )
+        System.out.println("Your job applications are currently...");
+        for ( JobApplication job : JobApplications )
             System.out.println(job);
-        if ( value.size() == 0 )
+        if ( JobApplications.size() == 0 )
             System.out.println("EMPTY");
 
         System.out.println();
 
-        return value;
+        return JobApplications;
     }
 
-    public void addToValue() {
-        getValue();
+    public void addToJobApplications() {
+        getJobApplications();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("What is the url of the new job posting?");
@@ -50,12 +50,12 @@ public class Data {
         JobApplication newApplication = new JobApplication(
                 newCompany,
                 newUrl,
-                "Applied"
+                "APPLIED"
         );
-        value.add(newApplication);
+        JobApplications.add(newApplication);
 
         System.out.println("Done.");
-        getValue();
+        getJobApplications();
     }
 
 }

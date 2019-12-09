@@ -6,13 +6,17 @@ public class JobApplication {
     private Date dateApplied;
     private String company;
     private String url;
-    private String status;
+    private StatusType status;
 
-    public JobApplication(String c, String u, String s) {
+    private enum StatusType {
+        APPLIED, REJECTED
+    }
+
+    public JobApplication(String company, String url, String status) {
         this.dateApplied = new Date();
-        this.company = c;
-        this.url = u;
-        this.status = s;
+        this.company = company;
+        this.url = url;
+        this.status = StatusType.APPLIED;
     }
 
     public String toString() {
@@ -20,7 +24,7 @@ public class JobApplication {
                 "date=" + dateApplied +
                 ", company=" + company +
                 ", url=" + url +
-                ", status=" + status +
+                ", status=" + status.toString() +
                 "]";
     }
 }

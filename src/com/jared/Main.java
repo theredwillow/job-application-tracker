@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Program starting...");
         data.loadMockData();
-        data.getValue();
+        data.getJobApplications();
 	    run();
     }
 
@@ -27,10 +27,10 @@ public class Main {
 
         switch (command) {
             case "add":
-                data.addToValue(); // args
+                data.addToJobApplications(); // args
                 break;
             case "print":
-                data.getValue();
+                data.getJobApplications();
                 break;
             case "end" :
                 System.out.println("Oh okay, goodbye!");
