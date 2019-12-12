@@ -1,6 +1,12 @@
 package com.jared;
 
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
 
 /** Used to connect with the database. */
 public class Data {
@@ -19,11 +25,56 @@ public class Data {
                 "https:///www.indeed.com/walgreens-job-1234.php",
                 "REJECTED"
         ));
+
+        getJobApplications();
+    }
+
+    public void loadFileData(String filename) {
+        try {
+            BufferedReader reader = new BufferedReader ( new FileReader (filename));
+            String line;
+            Scanner scanner;
+            int index = 0;
+            while ((line = reader.readLine()) != null) {
+                scanner = new Scanner(line);
+                scanner.useDelimiter(",");
+                String company = "(NO COMPANY PROVIDED)";
+                String url = "(NO URL PROVIDED)";
+                String status = "APPLIED";
+                while (scanner.hasNext()) {
+                    String data = scanner.next();
+                    // TODO Swap indexes with regex identifiers
+                    if (index == 0)
+                        company = data;
+                    else if (index == 1)
+                        url = data;
+                    else if (index == 2)
+                        status = data;
+                    else
+                        System.out.println("invalid data::" + data);
+                    index++;
+                }
+                index = 0;
+                JobApplications.add(new JobApplication(
+                        company,
+                        url,
+                        status
+                ));
+            }
+
+            reader.close();
+
+            getJobApplications();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("That file couldn't be found. Sorry.");
+        }
+        catch (IOException e){
+            System.out.println("There was an IOException: " + e + ". Sorry.");
+        }
     }
 
     public List<JobApplication> getJobApplications() {
-        System.out.println();
-
         System.out.println("Your job applications are currently...");
         for ( JobApplication job : JobApplications )
             System.out.println(job);
@@ -55,6 +106,8 @@ public class Data {
         JobApplications.add(newApplication);
 
         System.out.println("Done.");
+        System.out.println();
+
         getJobApplications();
     }
 

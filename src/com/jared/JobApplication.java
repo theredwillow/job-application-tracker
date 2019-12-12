@@ -16,7 +16,7 @@ public class JobApplication {
         this.dateApplied = new Date();
         this.company = company;
         this.url = url;
-        this.status = StatusType.APPLIED;
+        this.status = StatusType.valueOf(status);
     }
 
     public String toString() {
