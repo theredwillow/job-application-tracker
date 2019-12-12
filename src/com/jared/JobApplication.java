@@ -20,11 +20,9 @@ public class JobApplication {
     }
 
     public String toString() {
-        return "Job Application [" +
-                "date=" + dateApplied +
-                ", company=" + company +
-                ", url=" + url +
-                ", status=" + status.toString() +
-                "]";
+        return String.join(
+                ",",
+                dateApplied.toString(), company, url, status.toString()
+        );
     }
 }

@@ -25,6 +25,7 @@ public class Main {
         String[] args = Arrays.copyOfRange(responseParts, 1, responseParts.length);
 
         System.out.println();
+        // TODO Make case-insensitive
         switch (command) {
             case "add":
                 data.addToJobApplications(); // args

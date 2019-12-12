@@ -1,12 +1,9 @@
 package com.jared;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 
 /** Used to connect with the database. */
 public class Data {
@@ -31,7 +28,7 @@ public class Data {
 
     public void loadFileData(String filename) {
         try {
-            BufferedReader reader = new BufferedReader ( new FileReader (filename));
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
             String line;
             Scanner scanner;
             int index = 0;
@@ -55,11 +52,7 @@ public class Data {
                     index++;
                 }
                 index = 0;
-                JobApplications.add(new JobApplication(
-                        company,
-                        url,
-                        status
-                ));
+                JobApplications.add(new JobApplication(company, url, status));
             }
 
             reader.close();
@@ -70,7 +63,30 @@ public class Data {
             System.out.println("That file couldn't be found. Sorry.");
         }
         catch (IOException e){
-            System.out.println("There was an IOException: " + e + ". Sorry.");
+            System.out.println("There was an IOException, while trying to read file: " + e + ". Sorry.");
+        }
+    }
+
+    public static void saveFileData(String filename) {
+        try {
+            FileWriter csvWriter = new FileWriter(filename);
+
+            for (JobApplication jobApp : JobApplications) {
+                csvWriter.append(String.join(",", jobApp.toString()));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.flush();
+            csvWriter.close();
+
+            System.out.println("Saved to file!");
+            System.out.println();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("That file couldn't be found. Sorry.");
+        }
+        catch(IOException e) {
+            System.out.println("There was an IOException, while trying to save to the file: " + e + ". Sorry.");
         }
     }
 
@@ -109,6 +125,9 @@ public class Data {
         System.out.println();
 
         getJobApplications();
+
+        // TODO Implement a save on-command functionality
+        saveFileData("data.csv");
     }
 
 }
