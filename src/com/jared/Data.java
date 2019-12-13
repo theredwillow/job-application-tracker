@@ -30,31 +30,9 @@ public class Data {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             String line;
-            Scanner scanner;
-            int index = 0;
-            while ((line = reader.readLine()) != null) {
-                scanner = new Scanner(line);
-                scanner.useDelimiter(",");
-                String company = "(NO COMPANY PROVIDED)";
-                String url = "(NO URL PROVIDED)";
-                String status = "APPLIED";
-                while (scanner.hasNext()) {
-                    String data = scanner.next();
-                    // TODO Swap indexes with regex identifiers
-                    if (index == 0)
-                        company = data;
-                    else if (index == 1)
-                        url = data;
-                    else if (index == 2)
-                        status = data;
-                    else
-                        System.out.println("invalid data::" + data);
-                    index++;
-                }
-                index = 0;
-                JobApplications.add(new JobApplication(company, url, status));
-            }
-
+            // TODO Account for strings with commas in them
+            while ( (line = reader.readLine()) != null )
+                JobApplications.add(new JobApplication( line.split(",") ));
             reader.close();
 
             getJobApplications();
@@ -114,12 +92,11 @@ public class Data {
         String newCompany = scanner.nextLine();
         System.out.println();
 
-        JobApplication newApplication = new JobApplication(
+        JobApplications.add(new JobApplication(
                 newCompany,
                 newUrl,
                 "APPLIED"
-        );
-        JobApplications.add(newApplication);
+        ));
 
         System.out.println("Done.");
         System.out.println();
