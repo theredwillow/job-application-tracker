@@ -1,12 +1,9 @@
 package com.jared;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 
 /** Used to connect with the database. */
 public class Data {
@@ -31,19 +28,19 @@ public class Data {
 
     public void loadFileData(String filename) {
         try {
-            BufferedReader reader = new BufferedReader ( new FileReader (filename));
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
             String line;
             Scanner scanner;
             int index = 0;
             while ((line = reader.readLine()) != null) {
                 scanner = new Scanner(line);
+                // TODO Account for strings with commas in them
                 scanner.useDelimiter(",");
                 String company = "(NO COMPANY PROVIDED)";
                 String url = "(NO URL PROVIDED)";
                 String status = "APPLIED";
                 while (scanner.hasNext()) {
                     String data = scanner.next();
-                    // TODO Swap indexes with regex identifiers
                     if (index == 0)
                         company = data;
                     else if (index == 1)
@@ -55,11 +52,7 @@ public class Data {
                     index++;
                 }
                 index = 0;
-                JobApplications.add(new JobApplication(
-                        company,
-                        url,
-                        status
-                ));
+                JobApplications.add(new JobApplication(company, url, status));
             }
 
             reader.close();
@@ -71,6 +64,29 @@ public class Data {
         }
         catch (IOException e){
             System.out.println("There was an IOException: " + e + ". Sorry.");
+        }
+    }
+
+    public static void saveFileData(String filename) {
+        try {
+            FileWriter csvWriter = new FileWriter(filename);
+
+            for (JobApplication jobApp : JobApplications) {
+                csvWriter.append(String.join(",", jobApp.toString()));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.flush();
+            csvWriter.close();
+
+            System.out.println("Saved to file!");
+            System.out.println();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("That file couldn't be found. Sorry.");
+        }
+        catch(IOException e) {
+            System.out.println("There was an IOException, while trying to save to the file: " + e + ". Sorry.");
         }
     }
 
@@ -98,17 +114,15 @@ public class Data {
         String newCompany = scanner.nextLine();
         System.out.println();
 
-        JobApplication newApplication = new JobApplication(
-                newCompany,
-                newUrl,
-                "APPLIED"
-        );
-        JobApplications.add(newApplication);
+        JobApplications.add(new JobApplication(newCompany, newUrl, "APPLIED"));
 
         System.out.println("Done.");
         System.out.println();
 
         getJobApplications();
+
+        // TODO Implement a save on-command functionality
+        saveFileData("data.csv");
     }
 
 }
